@@ -1,6 +1,8 @@
 const CURRENT_POS_CHAR = "_";
 let Terminal = new terminal(document.getElementById("terminalDiv"));
 
+// let
+"let"
 
 class Line {
     element;
@@ -12,6 +14,11 @@ class Line {
     line_pos;
     RENDERED = false;
 
+    /**
+     * 
+     * @param {string} text 
+     * @param {*} options 
+     */
     constructor(text, {
         type = "pre",
         css = undefined,
@@ -33,10 +40,10 @@ class Line {
     async showText() {
         let old_id = this.element?.id;
         let textp = document.createElement(this.TYPE);
-        this.element = textp;
-        textp.id = this.line_pos;
         textp.innerHTML = this.text;
+        textp.id = this.line_pos;
         textp.style = this.css;
+        this.element = textp;
         
         if(this.RENDERED == false) { 
             Terminal.TERMINALDIV.appendChild(textp);

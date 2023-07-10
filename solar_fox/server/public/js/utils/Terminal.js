@@ -4,7 +4,6 @@ class terminal {
 
     constructor(terminalDiv) {
         this.TERMINALDIV = terminalDiv;
-        console.log(this.TERMINALDIV);
 
         if(!this.TERMINALDIV) {
             prompt("Failed to get terminal div.");
@@ -25,7 +24,6 @@ class terminal {
         this.lines = [];
 
         for(let i = 0; i < current_lines.length; i++) {
-            // this.lines.push(current_lines[i]);
             current_lines[i].reloadID();
         }
     }

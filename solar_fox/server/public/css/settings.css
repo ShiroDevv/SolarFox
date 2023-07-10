@@ -1,0 +1,48 @@
+* {
+    color-scheme: dark;
+    font-family: 'Courier New', monospace;
+}
+
+
+#header {
+    text-align: center;
+}
+
+a {
+    text-decoration:none;
+    color : white;
+
+}
+
+hr {
+    height: 1px;
+    background-color: gray;
+    border: none;
+}
+
+button {
+    border-radius: 4px;
+    background-color: rgb(74, 74, 221);
+    font-size: 12px;
+    font-weight: bold;
+
+}
+
+#main_settings {
+    background-color: darkslategrey;
+    border-radius: 3px;
+}
+
+.text-setting pre {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.text-setting input {
+    border-radius: 4px;
+    border-color: lightslategray;
+    max-width: 25px;
+    outline :  none;
+    border-style: solid;
+}

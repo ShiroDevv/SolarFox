@@ -1,4 +1,6 @@
 * {
     color-scheme: dark;
-    line-height: 0px;
+    line-height : 1px;
+    font-family: 'Courier New', monospace;
+    color: lightblue;
 }

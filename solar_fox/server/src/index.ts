@@ -7,6 +7,7 @@ dotenv.config();
 const ROOT = require("./routes/root");
 const EDITOR = require("./routes/editor");
 const GET_FILE = require("./routes/file_handling/get_file");
+const SETTINGS = require("./routes/settings");
 
 const APP = express();
 const PORT = 8787;
@@ -18,12 +19,13 @@ const URL = ngrok.connect({
     console.log(`NGROK URL is : ${URL}`);
 });
 
-APP.use("/public", express.static(`${__dirname.replace("\\dist", "")}\\public`));
+APP.use("/public", express.static(`${__dirname.replaceAll("\\", "/").replace("/dist", "")}/public`));
 
 
 APP.use(ROOT);
 APP.use(EDITOR);
 APP.use(GET_FILE);
+APP.use(SETTINGS);
 
 APP.listen(PORT, () => {
     console.log(`Lunar Fox server listening to port ${PORT}`);

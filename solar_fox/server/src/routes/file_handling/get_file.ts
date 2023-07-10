@@ -3,7 +3,7 @@ import fs from "fs";
 
 const router = express.Router();
 
-router.get("/get_file", (req, res) => {
+router.get("/file_handling/get_file", (req, res) => {
     let arg1 = req.query.file?.toString();
 
     try {

@@ -10,12 +10,15 @@ Y8a     a8P  "8a,   ,a8"  88  88,    ,88  88             88       "8a,   ,a8"  ,
  "Y88888P"    \`"YbbdP"'   88  \`"8bbdP"Y8  88             88        \`"YbbdP"'  8P'     \`Y8
  
 Type in file directory to load (Since this isn't on your current computer (probably), I cant use prompts.)
-Type Settings to open settings. (In development.)`.split("\n");
+Type Settings to open settings. (In development.)
+For info on warnings, type "warning"`.split("\n");
 
 
 showHeader();
 
-let prompt_answer = new Line("");
+let prompt_answer = new Line("_", {
+    css: "text-align : center;"
+});
 
 let finished = false;
 
@@ -27,16 +30,28 @@ async function runner(ev) {
 
         case "Backspace" : {
             prompt_answer.editText("[\\b[-1]]");
+            prompt_answer.editText("[\\b[-1]]");
+            prompt_answer.editText("_");
             break;
         }
 
         case " " : {
+            prompt_answer.editText("[\\b[-1]]");
             prompt_answer.editText(ev.key);
+            prompt_answer.editText("_");
             break;
         }
 
         case "Enter": {
-            let data = await fetch("/get_file?file=" + prompt_answer.text);
+            prompt_answer.editText("[\\b[-1]]");
+            if(prompt_answer.text == "settings") return location.replace("/settings");
+
+            if(prompt_answer.text == "warning") {
+                new Line("Lines that start with a quote will get syntax highlighting");
+                return;
+            }
+
+            let data = await fetch("/file_handling/get_file?file=" + prompt_answer.text);
 
             let text = await data.text();
             
@@ -56,7 +71,9 @@ async function runner(ev) {
         
         default: {
             if(/^[A-z0-9*:/()_\-,.]{0,1}$/g.test(ev.key)) {
+                prompt_answer.editText("[\\b[-1]]");
                 prompt_answer.editText(ev.key);
+                prompt_answer.editText("_");
             }
         }
     }
@@ -68,26 +85,26 @@ document.addEventListener("keydown", runner, false);
 
 function showHeader() {
     let cssList=[
-        "color : pink; line-height : 3px;",
-        "color : red; line-height : 3px;",
-        "color : yellow; line-height : 3px;",
-        "color : orange; line-height : 3px;",
-        "color : blue; line-height : 3px;",
-        "color : green; line-height : 3px;",
-        "color : lightseagreen; line-height : 3px;",
-        "color : indigo; line-height : 3px;",
-        "color : cornflowerblue; line-height : 3px;",
-        "color : gray; line-height : 3px;",
-        "color : white; line-height : 3px;",
+        "color : pink; line-height : 3px; text-align: center;",
+        "color : red; line-height : 3px; text-align: center;",
+        "color : yellow; line-height : 3px; text-align: center;",
+        "color : orange; line-height : 3px; text-align: center;",
+        "color : blue; line-height : 3px; text-align: center;",
+        "color : green; line-height : 3px; text-align: center;",
+        "color : lightseagreen; line-height : 3px; text-align: center;",
+        "color : indigo; line-height : 3px; text-align: center;",
+        "color : cornflowerblue; line-height : 3px; text-align: center;",
+        "color : gray; line-height : 3px; text-align: center;",
+        "color : white; line-height : 3px; text-align: center;",
 
     ];
     
     min = 0;
-    max = cssList.length;
+    max = cssList.length - 1;
 
     for(let i = 0; i < image_array.length; i++) {
-        new Line(image_array[i], {
-            css : "font-size : 2px; line-height : 0px; color: #07dbeb;",
+        new Line(`${image_array[i]}`, {
+            css : "font-size : 2px; line-height : 0px; color: #07dbeb; text-align: center;",
             current_line : false,
         })
     }
