@@ -16,9 +16,10 @@ const URL = ngrok.connect({
     console.log(`NGROK URL is : ${URL}`);
 });
 
+APP.use("/public", express.static(`${__dirname.replace("\\dist", "")}\\public`));
 
 APP.use(ROOT);
 
 APP.listen(PORT, () => {
-    console.log(`Sapphire server listening to port ${PORT}`);
+    console.log(`Lunar Fox server listening to port ${PORT}`);
 })
