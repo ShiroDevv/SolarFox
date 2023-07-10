@@ -19,8 +19,6 @@ router.get("/edit_setting", (req, res) => {
     let setting = setting_data.toString();
     let value = value_data.toString();
 
-    console.log(setting);
-
     glob(`${__dirname.replaceAll("\\", "/").replace("/dist/routes", "")}/public/css/**/*.css`).then((files) => {
         edit_files(files, setting, value);
     });

@@ -9,94 +9,58 @@
 },
  */
 
-let keywords = [
-    {
-        keyword: "let",
-        replace: create_color("blue", "let")
-    },
-    {
-        keyword: "const",
-        replace: create_color("blue, const")
-    },
-    {
-        keyword: "var",
-        replace: create_color("blue", "var")
-    },
-    {
-        keyword: "class",
-        replace: create_color("orange", "class")
-    },
-    {
-        keyword: "new",
-        replace: create_color("alice_blue", "new")
-    },
-    {
-        keyword: "continue",
-        replace: create_color("pink", "continue")
-    },
-    {
-        keyword: "function",
-        replace: create_color("blue", "function")
-    },
-    {
-        keyword: "false",
-        replace: create_color("blue", "false")
-    },
-    {
-        keyword: "if",
-        replace: create_color("pink", "if")
-    },
-    {
-        keyword: "for",
-        replace: create_color("pink", "for")
-    },
-    {
-        keyword: "=",
-        replace: create_color("white", "=")
-    },
-    {
-        keyword: "!",
-        replace: create_color("red", "!")
-    },
-    {
-        keyword: "&",
-        replace: create_color("white", "&")
-    },
-    {
-        keyword: "[",
-        replace: create_color("white", "[")
-    },
-    {
-        keyword: "]",
-        replace: create_color("white", "]")
-    },
-    {
-        keyword: ";",
-        replace: create_color("gray", ";")
-    },
-    {
-        keyword: ";",
-        replace: create_color("gray", ";")
-    },
-    {
-        keyword: ":",
-        replace: create_color("white", ":")
-    },
-    {
-        keyword: ".",
-        replace: create_color("red", ".")
-    },
-    {
-        keyword: "(",
-        replace: create_color("orange", "(")
-    },
-    {
-        keyword: ")",
-        replace: create_color("orange", ")")
+
+/**
+ * @param {string} token
+ * 
+ * @returns {string}
+ */
+
+function color_token(token) {
+    if(token =="&lt") return token;
+    
+    for(let i = 0; i < regexKeywords.length; i++) {
+        if(regexKeywords[i].regex.test(token)) {
+            token = create_color(regexKeywords[i].color, token);
+            return token;
+        }
     }
-]
 
+    for(let i = 0; i < variables.length; i++) {
+        if(variables[i].test(token)) {
+            token = create_color("darkorange", token);
+        }
+    }
+    return token;
+}
 
+let regexKeywords = [{
+    regex: /\b(let|const|var|class|function|false|true)\b/g,
+    color: "blue"
+}, {
+    regex: /\b(new)\b/g,
+    color: "alice_blue"
+}, {
+    regex: /\b(continue|if|for|else|import|from)\b/g,
+    color: "pink"
+}, {
+    regex:/[=&\[\]:]/g,
+    color: "white"
+}, {
+    regex: /[!.]/g,
+    color: "red"
+}, {
+    regex: /[;\{\}]/g,
+    color: "gray"
+}, {
+    regex: /[\(\)]/g,
+    color: "orange"
+}]
+
+/**
+ * @type {Array<RegExp>}
+ */
+let variables = [];
 
 function create_color(color, keyword) {
     return `<span style="color: ${color};">${keyword}</span>`

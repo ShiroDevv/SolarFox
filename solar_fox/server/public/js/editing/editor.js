@@ -12,8 +12,8 @@ async function main() {
 
     if(file_data == "Non-Existant") return window.location = "/";
 
-    console.log(urlParams.get("file").endsWith(".js"));
-    if(urlParams.get("file").endsWith(".js")) {
+    // file_data = file_data.replaceAll("<", "&lt");
+    if(urlParams.get("file").endsWith(".js") || urlParams.get("file").endsWith(".ts")) {
         file_data = jsHightlight(file_data);
     }
 
@@ -22,9 +22,6 @@ async function main() {
     let file_data_array = file_data.split("\n");
 
     for(let i = 0; i < file_data_array.length; i++) {
-        // file_data_array[i] = file_data_array[i].replaceAll("&", "&amp");
-        // file_data_array[i] = file_data_array[i].replaceAll("<", "&lt");
-        // file_data_array[i] = file_data_array[i].replaceAll("<", "&gt");
         new Line(file_data_array[i], {
             type: "pre"
         });

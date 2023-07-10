@@ -22,8 +22,19 @@ let prompt_answer = new Line("_", {
 
 let finished = false;
 
+let errorLine = undefined;
+
+/**
+ * 
+ * @param {KeyboardEvent} ev 
+ * @returns 
+ */
 async function runner(ev) {
     if(finished == true) return document.removeEventListener("keydown", runner, false);
+    if(errorLine) {
+        document.getElementById(errorLine.element.id).hidden = true;
+    }
+
     switch(ev.key) {
         case "Shift":
         return;
@@ -42,23 +53,48 @@ async function runner(ev) {
             break;
         }
 
+        case "v" : {
+            if(ev.ctrlKey.valueOf()) {
+                const permission = await navigator.permissions.query({
+                    name: "clipboard-read",
+                });
+
+                if (permission.state === "denied") {
+                    errorLine.editText("Was deniend clipboard contents");
+                    return;
+                }
+
+                const clipboardContents = await navigator.clipboard.readText();
+                
+                prompt_answer.editText("[\\b[-1]]");
+                prompt_answer.editText(clipboardContents);
+                prompt_answer.editText("_");
+
+                return;
+            }
+        }
+
         case "Enter": {
             prompt_answer.editText("[\\b[-1]]");
             if(prompt_answer.text == "settings") return location.replace("/settings");
 
             if(prompt_answer.text == "warning") {
-                new Line("Lines that start with a quote will get syntax highlighting");
+                new Line("   ");
+                new Line("Currently there is no easy way to return to home page, from editor.", {
+                    css: "text-align : center;color: red;"
+                });
+                new Line("Editor only loads and highlights a file.", {
+                    css: "text-align : center;color: red;"
+                });
                 return;
             }
 
             let data = await fetch("/file_handling/get_file?file=" + prompt_answer.text);
 
             let text = await data.text();
-            
-            console.log(text);
 
             if(text == "Non-Existant") {
-                new Line("File doesn't exist", {
+                errorLine = new Line("File doesn't exist", {
                     css: "color: red"
                 })
                 prompt_answer.showText();
