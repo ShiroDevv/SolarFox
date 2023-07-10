@@ -1,4 +1,6 @@
 const CURRENT_POS_CHAR = "_";
+let Terminal = new terminal(document.getElementById("terminalDiv"));
+
 
 class Line {
     element;
@@ -10,7 +12,7 @@ class Line {
     line_pos;
     RENDERED = false;
 
-    constructor(text, line_pos, {
+    constructor(text, {
         type = "pre",
         css = undefined,
         current_line = false,
@@ -23,9 +25,7 @@ class Line {
         // this.elements_in_text = elements;
         this.current_pos = current_pos;
         this.text = text;
-        this.line_pos = line_pos;
-
-        Terminal.loadLine(this);
+        this.line_pos = Terminal.loadLine(this);
 
         this.showText();
     }
@@ -50,7 +50,6 @@ class Line {
                     line = this;
                 }
             })
-
             document.getElementById(old_id).innerHTML = this.element.innerHTML;
         }
 
@@ -67,6 +66,19 @@ class Line {
                 break;
         }
         this.showText();
+    }
+
+    reloadID() {
+        this.line_pos = Terminal.loadLine(this);
+        this.setElemID(this.line_pos);
+
+        this.showText();
+    }
+
+    setElemID(line_pos) {
+        let element = document.getElementById(this.element.id);
+        element.id = line_pos;
+        this.element.id = line_pos;
     }
 
     clear() {

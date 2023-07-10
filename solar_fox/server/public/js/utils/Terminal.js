@@ -15,6 +15,19 @@ class terminal {
     //* Load a line.
     loadLine(Line) {
         this.lines.push(Line);
+
+        return this.lines.length - 1;
+    }
+
+    reloadLines() {
+        let current_lines = this.lines;
+
+        this.lines = [];
+
+        for(let i = 0; i < current_lines.length; i++) {
+            // this.lines.push(current_lines[i]);
+            current_lines[i].reloadID();
+        }
     }
 
     //* Clear the lines 1-by-1 until all of them are gone

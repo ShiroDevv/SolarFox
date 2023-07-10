@@ -1,7 +1,6 @@
-let Terminal = new terminal(document.getElementById("terminalDiv"));
-
 //* Creating the header
-let textArray = `ad88888ba                88                             88888888888                       
+let textArray = 
+`ad88888ba                88                             88888888888                       
 d8"     "8b               88                             88                                
 Y8,                       88                             88                                
 \`Y8aaaaa,     ,adPPYba,   88  ,adPPYYba,  8b,dPPYba,     88aaaaa   ,adPPYba,  8b,     ,d8  
@@ -10,18 +9,18 @@ Y8,                       88                             88
 Y8a     a8P  "8a,   ,a8"  88  88,    ,88  88             88       "8a,   ,a8"  ,d8" "8b,   
  "Y88888P"    \`"YbbdP"'   88  \`"8bbdP"Y8  88             88        \`"YbbdP"'  8P'     \`Y8
  
-Type in file directory to load, or type in "Prompt me" to create a web prompt.`.split("\n");
+Type in file directory to load (Since this isn't on your current computer (probably), I cant use prompts.)
+Type Settings to open settings. (In development.)`.split("\n");
 
 
 showHeader();
 
-let prompt_answer = new Line("", 2);
+let prompt_answer = new Line("");
 
 let finished = false;
 
-function runner(ev) {
+async function runner(ev) {
     if(finished == true) return document.removeEventListener("keydown", runner, false);
-    console.log(/^[A-z0-9]{0,1}$/g.test(ev.key));
     switch(ev.key) {
         case "Shift":
         return;
@@ -37,8 +36,22 @@ function runner(ev) {
         }
 
         case "Enter": {
+            let data = await fetch("/get_file?file=" + prompt_answer.text);
+
+            let text = await data.text();
+            
+            console.log(text);
+
+            if(text == "Non-Existant") {
+                new Line("File doesn't exist", {
+                    css: "color: red"
+                })
+                prompt_answer.showText();
+                return;
+            }
+
             finished = true;
-            return editor();
+            return location.replace("/editor?file=" + prompt_answer.text);
         }
         
         default: {
@@ -68,19 +81,20 @@ function showHeader() {
         "color : white; line-height : 3px;",
 
     ];
+    
+    min = 0;
+    max = cssList.length;
 
     for(let i = 0; i < image_array.length; i++) {
-        new Line(image_array[i], 1, {
-            css : "font-size : 2px; line-height : 0px",
-            current_line : false
+        new Line(image_array[i], {
+            css : "font-size : 2px; line-height : 0px; color: #07dbeb;",
+            current_line : false,
         })
     }
 
-    min = 0;
-    max = cssList.length;
     
     for(let i = 0; i < textArray.length; i++) {
-        new Line(textArray[i], 1, {
+        new Line(textArray[i], {
             css : cssList[Math.floor(Math.random() * (max - min + 1) + min)],
             current_line : false
         })
