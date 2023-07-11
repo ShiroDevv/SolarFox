@@ -69,7 +69,7 @@ async function runner(ev) {
 
                 const clipboardContents = await navigator.clipboard.readText();
                 
-                if(/^[A-z0-9*:/()_\-,.]$/g.test(clipboardContents)) {
+                if(/^[A-z0-9*:/()_\-,.$]+/g.test(clipboardContents)) {
                     prompt_answer.editText("[\\b[-1]]");
                     prompt_answer.editText(clipboardContents);
                     prompt_answer.editText("_");
@@ -112,6 +112,7 @@ async function runner(ev) {
             let text = await data.text();
 
             if(text == "Non-Existant") {
+                prompt_answer.editText("_");
                 errorLine = new Line("File doesn't exist", {
                     css: "color: red; text-align : center;"
                 })

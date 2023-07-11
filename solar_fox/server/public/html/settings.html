@@ -6,14 +6,23 @@
     <script src="/public/js/utils/settings.js" defer></script>
 </head>
 
-<body>
+<body onload="loadSyntaxExtensionSettings()">
     <h1 id="header">Settings </h1>
     <hr>
     <div id="main_settings">
+        <h2 style="text-align: center;"> Main Settings </h2>
         <div class="text-setting">
             <pre style="color: lightgray">Line Height : <input id="line-height-text" type="text"></input>px     <button id="line-height-button" onclick="lineHeightChange()">Submit change</button></pre>
             <pre id="line-height-err"hidden></pre>
         </div>
+        <div class="text-setting">
+            <pre style="color: lightgray">Font Size : <input id="font-size-text" type="text"></input>px     <button id="font-size-button" onclick="fontSizeChange()">Submit change</button></pre>
+            <pre id="font-size-err"hidden></pre>
+        </div>
+    </div>
+    <hr>
+    <div id="extension-settings">
+        <h2 style="text-align: center;"> Extension Settings </h2>
     </div>
     <hr>
     <button style="margin: 0;

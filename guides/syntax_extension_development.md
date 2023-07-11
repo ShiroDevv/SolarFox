@@ -66,6 +66,11 @@ Color to show for the comments, any css color will work.
 #### Quotes
 A list of quotes that start strings. Doesn't check for multiline. Same limit as Comments.line_comment
 
+#### Enabled
+This is tell whether or not the file would enabled when its installed.
+
+Once I add in the ability to toggle than it will be used
+
 ### Example file
 #### (not finished) JS syntax file
 
@@ -73,6 +78,9 @@ A list of quotes that start strings. Doesn't check for multiline. Same limit as 
 
 ```json
 {
+    "name" : "Javascript support", <- For when I add in settings for extensions
+    "description" : "Adds javascript syntax support", <- For when I add in settings for extensions 
+    "Developer" : "ShiroDevv", <- For when I add in settings for extensions
     "extension_type": "syntax", <- designates a syntax extension
     "language": "js", <- Sets this syntax file if the file ends in .js
     "break_character": "\\", <- Sets the break character to "\" (Json uses \ as its own break character)
@@ -91,6 +99,7 @@ A list of quotes that start strings. Doesn't check for multiline. Same limit as 
         },
         "color": "green" <- Sets the color to green (Any css color works)
     },
-    "quotes" : ["\"", "'", "`"] <- Sets the quotes to " ' and ` for strings. (Does not check for multiline strings, same limits as line_comment)
+    "quotes" : ["\"", "'", "`"], <- Sets the quotes to " ' and ` for strings. (Does not check for multiline strings, same limits as line_comment)
+    "enabled" : true <- Sets the extension to be enabled. (For when I add that in)
 }
 ```

@@ -15,9 +15,13 @@ async function highlight(file_text, file_type) {
 
     let extensionData = await (await fetch(`/syntax_handling/get_syntax_extension?file_type=${file_type}`)).text();
 
-    if(extensionData == "No valid Syntax!") return file_text;
-
-    let extension_JSON = JSON.parse(extensionData);
+    
+    let extension_JSON;
+    try{ 
+        extension_JSON = JSON.parse(extensionData);
+    } catch(err) {
+        return file_text;
+    }
 
 
     try {
