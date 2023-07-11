@@ -6,6 +6,9 @@ document.addEventListener("keydown", () => {
     line_height_err.hidden = true;
 })
 
+/**
+ *  Contacts the server API to change the line height.
+ */
 async function lineHeightChange() {
     if(line_height_settings.value == undefined || line_height_settings.value == "") {
         line_height_err.textContent = "Please set a value.";

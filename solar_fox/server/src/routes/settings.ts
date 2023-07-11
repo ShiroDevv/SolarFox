@@ -8,6 +8,19 @@ router.get("/settings", (req, res) => {
     res.sendFile(`${__dirname.replaceAll("\\", "/").replace("/dist/routes", "")}/public/html/settings.html`); 
 });
 
+/**
+ * Edits a setting based off of the request
+ * 
+ * get {SERVER_URL}/edit_setting?setting={CSS-ELEMENT-TO-EDIT}&value={CSS-VALUE}
+ * response : 
+ * 
+ *  if missing setting
+ *      No setting
+ *  if missing value
+ *      No value
+ *  if all are given
+ *      Edited! Reload the page to show change!
+ */
 
 router.get("/edit_setting", (req, res) => {
     let setting_data = req.query.setting;
@@ -26,6 +39,16 @@ router.get("/edit_setting", (req, res) => {
     return res.send("Edited! Reload the page to show change!");
 })
 
+/**
+ * 
+ * @param files 
+ * @param css_attribute 
+ * @param data 
+ * @returns { void }
+ * 
+ * 
+ * Edits css files based off of the setting requested.
+ */
 function edit_files(files : Array<string>, css_attribute : string, data : string) {
     for(let i = 0; i < files.length; i++) {
         let file_data_array = fs.readFileSync(files[i]).toString().split("\n");

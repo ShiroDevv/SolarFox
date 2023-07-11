@@ -2,6 +2,13 @@ class terminal {
     lines = [];
     TERMINALDIV;
 
+    /**
+     * 
+     * @param {Element} terminalDiv 
+     * @returns { void }
+     * 
+     * Sets up the terminal for the class
+     */
     constructor(terminalDiv) {
         this.TERMINALDIV = terminalDiv;
 
@@ -10,14 +17,22 @@ class terminal {
             return console.error("Missing terminal div.");
         }
     }
-
-    //* Load a line.
+    /**
+     * 
+     * @param {Object} Line 
+     * 
+     * Read the docs on whats in there in ./Line.js
+     */
     loadLine(Line) {
         this.lines.push(Line);
 
         return this.lines.length - 1;
     }
 
+    /**
+     * Reloads the lines in the terminal
+     * @returns { void }
+     */
     reloadLines() {
         let current_lines = this.lines;
 
@@ -28,13 +43,15 @@ class terminal {
         }
     }
 
-    //* Clear the lines 1-by-1 until all of them are gone
+    /**
+     * Removes all lines in the console
+     * @returns { void }
+     */
     async clearLines() {
         for (let i = 0; i < this.lines.length; i++) {
             document.getElementById(this.lines[i].element.id).remove();
         }
 
-        //* Reset the lines array so that the old non-existant lines are gone.
         this.lines = [];
 
         return;

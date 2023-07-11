@@ -1,3 +1,8 @@
+// DEPRECATED FILE
+// DEPRECATED ON 7/11
+// PLEASE USE SYTAX EXTENSION FILES
+
+
 // I don't know what I am doing tbh
 // This is just working ok?
 // If there is a unhighlited word, just add this

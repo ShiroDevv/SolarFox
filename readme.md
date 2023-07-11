@@ -6,7 +6,12 @@ I am going to try and make it support other languages, and support extensions
 
 ### Web
 
-### Currently renders text, and highlights the text (js only).
+### Currently only renders text.
 
-CURRENTLY IN DEVELOPMENT
+### Features
+#### (partial) Support for js highlighting
 
+Cant show rn, I'll update this when I get the ability to.
+
+#### Support for syntax highlighting extensions!
+[guide](./guides/syntax_extension_development.md)

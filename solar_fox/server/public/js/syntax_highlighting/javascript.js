@@ -1,3 +1,9 @@
+// DEPRECATED FILE
+// DEPRECATED ON 7/11
+// PLEASE USE ./highlight.js
+
+// If needed for some reason, use it, but its much better to use this.
+
 let variableKeywords = ["const", "let"];
 
 let variableKeywordColor = "blue";
@@ -25,15 +31,31 @@ function colorKeywords(tokens) {
     let in_block_comment = false;
     let starting_quote = "";
     let escaped = false;
-
+    
+    tokens = tokens.filter((value, index) => value != "");
+    
     for(let i = 0; i < tokens.length; i++) {
-        if(tokens[i] == "\\") {
-            escaped = true;
+        if(in_comment && tokens[i] == "\n") in_comment = false; 
+
+        if(tokens[i].trim() == "/" && tokens[i - 1] == "/"){
+            tokens[i - 1] = `<span style="color: green">${tokens[i - 1]}</span>`
+            in_comment = true;
+        }
+        
+        if(in_comment) {
+            tokens[i] = `<span style="color: green">${tokens[i]}</span>`
             continue;
         }
 
+        if(tokens[i] == "\\") {
+            escaped = true;
+            tokens[i] = "<span style=\"color:brown\">\\</span>"
+            continue;
+        }
+        
         if(escaped){
             escaped = false;
+            tokens[i] = `<span style="color:brown">${tokens[i]}</span>`
             continue;
         }
 
@@ -45,11 +67,11 @@ function colorKeywords(tokens) {
         }
 
         if(tokens[i] == "*" && tokens[i -2] == "/") {
-            tokens[i - 2] = `<span style="color: green">${tokens[i-2]}</span>`;
+            tokens[i - 1] = `<span style="color: green">${tokens[i - 1]}</span>`;
             in_block_comment = true;
         }
 
-        if(tokens[i] == "/" && tokens[i - 2] == `<span style="color: green">*</span>` && in_block_comment == true) {
+        if(tokens[i] == "/" && tokens[i - 1] == `<span style="color: green">*</span>` && in_block_comment == true) {
             tokens[i] = `<span style="color: green">${tokens[i]}</span>`;
             in_block_comment = false;
             continue;
@@ -59,8 +81,6 @@ function colorKeywords(tokens) {
             tokens[i] = `<span style="color: green">${tokens[i]}</span>`;
             continue;
         }
-
-        console.log(tokens[i]);
 
         if((tokens[i].trim() == "`" || tokens[i].trim() == "'" || tokens[i].trim() == "\"") && in_quotes == false) {
             starting_quote = tokens[i].trim();
@@ -73,23 +93,6 @@ function colorKeywords(tokens) {
 
         if(in_quotes == true) continue;
 
-        if(in_comment && tokens[i] == "\n") in_comment = false;
-
-        if(tokens[i].trim() == "/" && tokens[i - 2] == "/"){
-            tokens[i - 2] = `<span style="color: green">${tokens[i-2]}</span>`
-            in_comment = true;
-        }
-
-
-        if(in_comment) {
-            tokens[i] = `<span style="color: green">${tokens[i]}</span>`
-        }
-
-        if(in_comment == true) continue; 
-
-        // if(/(const|let|var|function)/g.test(tokens[i - 4])) {
-        //     variables.push(new RegExp(`\\b(${tokens[i]})\\b`, "g"));
-        // }
 
         tokens[i] = color_token(tokens[i]);
     }
@@ -97,6 +100,13 @@ function colorKeywords(tokens) {
     return tokens;
 }
 
+/**
+ * 
+ * Tokenizes the file.
+ * 
+ * @param {string} file_text 
+ * @returns {Array<string>}
+ */
 
 function tokenize_file(file_text) {
     let current_token = "";

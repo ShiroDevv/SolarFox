@@ -13,7 +13,6 @@ Type in file directory to load (Since this isn't on your current computer (proba
 Type Settings to open settings. (In development.)
 For info on warnings, type "warning"`.split("\n");
 
-
 showHeader();
 
 let prompt_answer = new Line("_", {
@@ -27,10 +26,13 @@ let errorLine = undefined;
 /**
  * 
  * @param {KeyboardEvent} ev 
- * @returns 
+ * @returns {void}
+ * 
+ * Handles keypresses for the index page terminal
  */
 async function runner(ev) {
     if(finished == true) return document.removeEventListener("keydown", runner, false);
+
     if(errorLine) {
         document.getElementById(errorLine.element.id).hidden = true;
     }
@@ -54,7 +56,8 @@ async function runner(ev) {
         }
 
         case "v" : {
-            if(ev.ctrlKey.valueOf()) {
+            let cntrlPressed = ev.ctrlKey;
+            if(cntrlPressed) {
                 const permission = await navigator.permissions.query({
                     name: "clipboard-read",
                 });
@@ -66,15 +69,30 @@ async function runner(ev) {
 
                 const clipboardContents = await navigator.clipboard.readText();
                 
-                prompt_answer.editText("[\\b[-1]]");
-                prompt_answer.editText(clipboardContents);
-                prompt_answer.editText("_");
+                if(/^[A-z0-9*:/()_\-,.]$/g.test(clipboardContents)) {
+                    prompt_answer.editText("[\\b[-1]]");
+                    prompt_answer.editText(clipboardContents);
+                    prompt_answer.editText("_");
+                    return;
+                }
 
+                errorLine = new Line("Cant paste clipboard contents. (Invalid characters)", {
+                    css: "color: red; text-align : center;"
+                });
+                document.getElementById(errorLine.element.id).hidden = false;
                 return;
             }
+
+            //Don't know why it happens, but if you press v it sets off the enter case.
+            prompt_answer.editText("[\\b[-1]]");
+            prompt_answer.editText(ev.key);
+            prompt_answer.editText("_");
+            return;
         }
 
         case "Enter": {
+            console.log(ev.key);
+
             prompt_answer.editText("[\\b[-1]]");
             if(prompt_answer.text == "settings") return location.replace("/settings");
 
@@ -95,7 +113,7 @@ async function runner(ev) {
 
             if(text == "Non-Existant") {
                 errorLine = new Line("File doesn't exist", {
-                    css: "color: red"
+                    css: "color: red; text-align : center;"
                 })
                 prompt_answer.showText();
                 return;
@@ -117,8 +135,14 @@ async function runner(ev) {
 }
 
 document.addEventListener("keydown", runner, false);
+/*
 
+*/
 
+/**
+ * Loads the header image, and the header text
+ * The header text has each line with randomized coloring
+ */
 function showHeader() {
     let cssList=[
         "color : pink; line-height : 3px; text-align: center;",

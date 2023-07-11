@@ -7,15 +7,19 @@ const urlParams = new URLSearchParams(queryString);
 
 main();
 
+/**
+ *  Loads and highlights the code in the terminal. Working on being able to edit the code.
+ * 
+ * @returns { void }
+ */
 async function main() {
     let file_data = await (await fetch("/file_handling/get_file?file=" + urlParams.get("file"))).text();
 
     if(file_data == "Non-Existant") return window.location = "/";
 
     // file_data = file_data.replaceAll("<", "&lt");
-    if(urlParams.get("file").endsWith(".js") || urlParams.get("file").endsWith(".ts")) {
-        file_data = jsHightlight(file_data);
-    }
+
+    file_data = await highlight(file_data, urlParams.get("file").slice(-2));
 
     document.title = `Solar Fox - ${urlParams.get("file").split("/")[urlParams.get("file").split("/").length -1]}`;
 
@@ -26,5 +30,4 @@ async function main() {
             type: "pre"
         });
     }
-
 }
