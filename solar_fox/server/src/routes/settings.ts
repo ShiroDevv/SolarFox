@@ -1,6 +1,8 @@
 import express from "express";
 import { glob } from "glob";
 import fs from "fs";
+import DEBUG from "..";
+import chalk from "chalk";
 
 const router = express.Router();
 
@@ -51,6 +53,10 @@ router.get("/edit_setting", (req, res) => {
  */
 function edit_files(files : Array<string>, css_attribute : string, data : string) {
     for(let i = 0; i < files.length; i++) {
+        if(DEBUG) {
+            console.log(chalk.green(`[LOG]: Checking file ${files[i]}`));
+        }
+
         let file_data_array = fs.readFileSync(files[i]).toString().split("\n");
 
         for(let j = 0; j < file_data_array.length; j++) {

@@ -51,6 +51,13 @@ async function fontSizeChange() {
         return;
     }
 
+    if(Number(font_size_settings.value.trim()) > 20 || Number(font_size_settings.value.trim()) < 10) {
+        font_size_err.textContent = "Please keep the value between 10 and 20.";
+
+        font_size_err.hidden = false;
+        return;
+    }
+
     let data = await fetch(`/edit_setting?setting=font-size&value=${font_size_settings.value.trim()}px`);
     font_size_err.textContent = await data.text();
     font_size_err.hidden = false;

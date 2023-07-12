@@ -19,7 +19,7 @@ extensions/foo/bar/syn/tax/js/javascript.json
 For a syntax highlighting extension, you will want it to be set to "syntax"
 
 #### language
-File extension of the language. Currently you cannot do multiple languages for one syntax.
+Array of supported file extensions.
 
 #### break_character
 The break character of the language. Most laguages have this set to \ ("\\\\" for json)
@@ -82,8 +82,11 @@ Once I add in the ability to toggle than it will be used
     "description" : "Adds javascript syntax support", <- For when I add in settings for extensions 
     "Developer" : "ShiroDevv", <- For when I add in settings for extensions
     "extension_type": "syntax", <- designates a syntax extension
-    "language": "js", <- Sets this syntax file if the file ends in .js
-    "break_character": "\\", <- Sets the break character to "\" (Json uses \ as its own break character)
+    "language": ["js", "cjs", "mjs", "jsx"], <- Sets this syntax file if the file ends in .js
+    "break_character": {
+        "\\", <- Sets the break character to "\" (Json uses \ as its own break character)
+        "color" : "#744B00" <- color the break character and the character that comes after it will highlight to.
+    }
     "keywords": [{
         "regex": "/\\b(new)\\b/", <- regex for the keywords (Regex checks for wordboundary, the word new, than another word boundary)
         "color": "alice_blue" <- If the token matches the regex, set the color to alice blue (Any css color works)
@@ -99,7 +102,10 @@ Once I add in the ability to toggle than it will be used
         },
         "color": "green" <- Sets the color to green (Any css color works)
     },
-    "quotes" : ["\"", "'", "`"], <- Sets the quotes to " ' and ` for strings. (Does not check for multiline strings, same limits as line_comment)
+    "quotes" : {
+        ["\"", "'", "`"], <- Sets the quotes to " ' and ` for strings. (Does not check for multiline strings, same limits as line_comment)
+        "color" : "chocolate" <- The color it will highlight to
+    }
     "enabled" : true <- Sets the extension to be enabled. (For when I add that in)
 }
 ```

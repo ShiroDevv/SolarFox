@@ -1,6 +1,8 @@
 import express from "express";
 import fs from "fs";
 import { glob } from "glob";
+import DEBUG from "../..";
+import chalk from "chalk";
 
 const router = express.Router();
 
@@ -23,12 +25,24 @@ router.get("/syntax_handling/get_syntax_extension", (req, res) => {
 
     glob(`${__dirname.replaceAll("\\", "/").replace("/dist/routes/syntax_handling", "")}/extensions/**/*.json`).then(async (files) => {
         for(let i = 0;i < files.length; i++) {
+            if(DEBUG) {
+                console.log(chalk.green(`[LOG]: Checking file ${files[i]}`));
+            }
             let JSON_DATA = JSON.parse(fs.readFileSync(files[i]).toString());
-            
-            if(JSON_DATA?.language == file_extension && JSON_DATA?.enabled == true) {
-                return res.sendFile(files[i]);
+
+            for(let j = 0; j < JSON_DATA.languages.length; j++) {
+                if(JSON_DATA.languages[j] == file_extension && JSON_DATA?.enabled == true) {
+                    return res.sendFile(files[i]);
+                } else {
+                    continue;
+                }
             }
         }
+
+        if(DEBUG) {
+            console.log(chalk.yellow(`[WARN]: Failed to find syntax extension.`));
+        }
+
         res.send("No valid syntax!");
     });
 });
@@ -39,6 +53,10 @@ router.get("/syntax_handling/get_all_syntax_extensions", (req, res) => {
 
     glob(`${__dirname.replaceAll("\\", "/").replace("/dist/routes/syntax_handling", "")}/extensions/**/*.json`).then(async (files) => {
         for(let i = 0;i < files.length; i++) {
+            if(DEBUG) {
+                console.log(chalk.green(`[LOG]: Checking file ${files[i]}`));
+            }
+
             let JSON_DATA = JSON.parse(fs.readFileSync(files[i]).toString());
             
             if(JSON_DATA?.extension_type == "syntax") {

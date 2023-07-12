@@ -43,6 +43,10 @@ class terminal {
         }
     }
 
+    reload_editor_lines(file_text) {
+        
+    }
+
     /**
      * Removes all lines in the console
      * @returns { void }

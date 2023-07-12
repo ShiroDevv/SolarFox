@@ -18,8 +18,7 @@ For info on warnings, type "warning"`.split("\n");
 showHeader();
 
 let prompt_answer = new Line("_", {
-    css: "text-align : center;",
-    current_line : true
+    css: "text-align : center;"
 });
 
 let finished = false;

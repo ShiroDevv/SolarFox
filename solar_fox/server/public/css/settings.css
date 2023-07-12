@@ -23,7 +23,7 @@ hr {
 button {
     border-radius: 4px;
     background-color: rgb(74, 74, 221);
-    font-size : 20px;
+    font-size : 15px;
     font-weight: bold;
 
 }
@@ -35,7 +35,7 @@ button {
 
 .text-setting pre {
     text-align: center;
-    font-size : 20px;
+    font-size : 15px;
     font-weight: bold;
 }
 
@@ -120,24 +120,24 @@ input:checked + .slider:before {
 }
 
 .extension-name {
-    font-size: larger;
+    font-size : 15px;
     color: orange;
     font-weight: bolder;
 }
 
 .extension-description {
-    font-size: large;
+    font-size : 15px;
     color: darkblue;
     font-weight: bold;
 }
 
 .extension-type {
-    font-size: large;
+    font-size : 15px;
     color: plum;
 }
 
 .extension-developer {
-    font-size: large;
+    font-size : 15px;
     color: pink;
     font-weight: bold;
 }

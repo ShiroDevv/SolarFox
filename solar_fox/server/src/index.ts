@@ -6,6 +6,19 @@
 import express from "express";
 import ngrok from "ngrok";
 import dotenv from "dotenv";
+import { argv } from "process";
+import chalk from "chalk";
+import fs from "fs";
+
+let DEBUG = false;
+
+for(let i = 0; i < process.argv.length; i++) {
+    if(argv[i] == "--debug"){
+        console.warn(chalk.yellow("[WARNING]: Debug mode activated."));
+        DEBUG = true;
+    }
+    
+}
 
 dotenv.config();
 
@@ -19,14 +32,15 @@ const SET_EXTENSION_ENABLED = require("./routes/extensions/change_enable");
 const APP = express();
 const PORT = 8787;
 
-const URL = ngrok.connect({
+ngrok.connect({
     addr: PORT,
     authtoken: process.env.NGROK_AUTH_TOKEN
 }).then((URL) => {
-    console.log(`NGROK URL is : ${URL}`);
+    console.log(chalk.green(`[INFO]: NGROK URL is : ${URL}`));
 });
 
 APP.use("/public", express.static(`${__dirname.replaceAll("\\", "/").replace("/dist", "")}/public`));
+
 
 
 APP.use(ROOT);
@@ -37,5 +51,7 @@ APP.use(GET_SYNTAX_EXTENSION);
 APP.use(SET_EXTENSION_ENABLED);
 
 APP.listen(PORT, () => {
-    console.log(`Lunar Fox server listening to port ${PORT}`);
+    console.log(chalk.green(`[INFO]: Solar Fox server listening to port ${PORT}`));
 })
+
+export default DEBUG;
