@@ -1,4 +1,6 @@
 # Solar fox
+## When this comes back into development, it will probably be incorperated into my website
+
 A coding editor designed specifically for Lunar fox
 
 ## Note :
